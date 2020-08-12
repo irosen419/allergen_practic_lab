@@ -1,0 +1,7 @@
+<h1>Ingredients Sorted by Number of Users Allergic to Them</h1>
+
+<% Ingredient.sorted.each do |key, value| %>
+    <% if key != "" %>
+        <p><%= key %> - <%= value %> <%= "person".pluralize(value) %></p>
+    <% end %>
+<% end %>

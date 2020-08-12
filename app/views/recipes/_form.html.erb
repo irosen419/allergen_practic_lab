@@ -1,0 +1,51 @@
+<% if flash[:errors] %>
+    <ul>
+      <% flash[:errors].each do |error| %>
+      <li><%= error %></li>
+      <% end %>
+    </ul>
+<% end%>
+
+
+<%= form_for(@recipe) do |recipe_builder| %>
+    <p>
+      <%= recipe_builder.label :name %>
+      <%= recipe_builder.text_field :name %>
+    </p>
+
+    <h2>User</h2>
+    <p>
+        <%= recipe_builder.collection_select :user_id, User.all, :id, :name, {:include_blank => 'Select'} %>
+    </p>
+
+    <h3>If you are a new user, please tell us your name</h3>
+    <h3>And any allergies you have to foods</h3>
+
+    <%= recipe_builder.fields_for :user, User.new do |user_fields| %>
+        <p>
+          <%= user_fields.label :name %>
+          <%= user_fields.text_field :name %>
+        </p>
+        <p>
+          <%= user_fields.label :allergies %>
+          <%= user_fields.text_area :allergies %>
+        </p>
+    <% end %>
+
+    <%= recipe_builder.fields_for :ingredients do |ingredient_builder| %>
+    <h2>Ingredient <%= ingredient_builder.object[:ingredient_number] %> </h2>
+    <p>
+      <%= ingredient_builder.label :name %>
+      <%= ingredient_builder.text_field :name %>
+    </p>
+
+    <p>
+      <%= ingredient_builder.label :quantity %>
+      <%= ingredient_builder.text_field :quantity %>
+    </p>
+
+    <%= ingredient_builder.hidden_field :ingredient_number %>
+
+    <% end %>
+    <%= recipe_builder.submit %>
+<% end %>
